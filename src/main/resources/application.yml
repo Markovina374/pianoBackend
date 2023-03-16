@@ -1,0 +1,10 @@
+apiPath: "https://api.stackexchange.com/"
+server:
+  port: 8090
+spring:
+  webflux.base-path: /api/v1
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /swagger-ui
