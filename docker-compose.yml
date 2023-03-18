@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  back:
+    build:
+      context: /pianoBackend-master/
+    container_name: pianoback
+    ports:
+        - "8090:8090"
+  front:
+    build:
+      context: /pianoFront-master/
+    container_name: pianofrpnt
+    ports:
+        - "4200:80"    
