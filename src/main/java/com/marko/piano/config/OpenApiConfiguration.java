@@ -1,4 +1,4 @@
-package com.marko.pianoBackend.config;
+package com.marko.piano.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Swagger Configuration
+ * @author Markov Vlad
  */
 @Configuration
 public class OpenApiConfiguration {

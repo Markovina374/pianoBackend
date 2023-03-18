@@ -1,4 +1,4 @@
-package com.marko.pianoBackend.exception;
+package com.marko.piano.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Exception Handler
+ * @author Markov Vlad
  */
 @Slf4j
 @RestControllerAdvice

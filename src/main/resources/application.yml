@@ -1,4 +1,6 @@
-apiPath: "https://api.stackexchange.com/"
+api:
+  path: https://api.stackexchange.com/
+  version: 2.3
 server:
   port: 8090
 spring:

@@ -1,4 +1,4 @@
-package com.marko.pianoBackend;
+package com.marko.piano;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

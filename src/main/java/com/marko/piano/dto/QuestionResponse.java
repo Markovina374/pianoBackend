@@ -1,4 +1,4 @@
-package com.marko.pianoBackend.dto;
+package com.marko.piano.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,15 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * A list of questions. Is the root element when searching for questions
+ * A list of question. Is the root element when searching for questions
+ * @author Markov Vlad
  */
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class ListQuestions implements StackOverflowRootEntity {
+public class QuestionResponse {
+  /**
+   * List of question
+   */
   List<Question> items;
 }

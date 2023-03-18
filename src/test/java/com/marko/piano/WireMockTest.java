@@ -1,50 +1,52 @@
-package com.marko.pianoBackend;
+package com.marko.piano;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
-import com.marko.pianoBackend.dto.ListQuestions;
-import com.marko.pianoBackend.service.StackOverflowService;
+import com.marko.piano.dto.Question;
+import com.marko.piano.dto.QuestionResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.anyUrl;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.marko.piano.TestHelper.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-//@RunWith(SpringRunner.class)
-@DirtiesContext
 @AutoConfigureWebTestClient
 class WireMockTest {
   private WireMockServer wireMockServer;
   @Autowired
   ObjectMapper objectMapper;
+
   @Autowired
-  StackOverflowService<ListQuestions> stackOverflowService;
+  WebTestClient webTestClient;
 
   @BeforeEach
   void setUp() {
     wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(7071));
     wireMockServer.start();
   }
+
   @AfterEach
   void tearDown() {
     wireMockServer.stop();
   }
 
   @Test
-  void testGetAddressList() throws JsonProcessingException {
-    ListQuestions testQuestions = TestHelper.resolveListQuestions();
+  void testGetQuestionResponse() throws JsonProcessingException {
+    QuestionResponse testQuestions = TestHelper.resolveListQuestions();
 
-
-    String jsonInString = objectMapper.writeValueAsString(testQuestions);
     wireMockServer.stubFor(WireMock.get(anyUrl())
             .withQueryParam("order", equalTo("desc"))
             .withQueryParam("sort", equalTo("activity"))
@@ -52,6 +54,19 @@ class WireMockTest {
             .withQueryParam("site", equalTo("stackoverflow"))
             .willReturn(WireMock.okJson(objectMapper.writeValueAsString(testQuestions))));
 
-    stackOverflowService.getEntity("test").blockOptional().get();
+    webTestClient.get()
+            .uri("/search/test")
+            .accept(MediaType.APPLICATION_NDJSON)
+            .headers(httpHeaders -> httpHeaders.setBasicAuth("dXNlcjpwYXNzd29yZA=="))
+            .exchange()
+            .expectBodyList(Question.class)
+            .consumeWith(list -> {
+              assertNotNull(list);
+              assertEquals(1, list.getResponseBody().size());
+              assertEquals(TITLE, list.getResponseBody().get(0).getTitle());
+              assertEquals(LINK, list.getResponseBody().get(0).getLink());
+              assertNotNull(list.getResponseBody().get(0).getOwner());
+              assertEquals(OWNER_NAME, list.getResponseBody().get(0).getOwner().name());
+            });
   }
 }
