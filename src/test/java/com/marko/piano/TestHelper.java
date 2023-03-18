@@ -8,9 +8,17 @@ import com.marko.piano.dto.StackOverflowDate;
 import java.util.List;
 
 public class TestHelper {
+  /**
+   * Constants for tests
+   */
   public final static String TITLE = "How to write tests on wire mock";
   public final static String LINK = "localhost:8080/api/v1/swagger-ui";
   public final static String OWNER_NAME = "Vlad Markov";
+
+  /**
+   * Resolve test response
+   * @return test response
+   */
   public static QuestionResponse resolveListQuestions() {
     QuestionResponse questionResponse = new QuestionResponse();
     Question question = new Question();

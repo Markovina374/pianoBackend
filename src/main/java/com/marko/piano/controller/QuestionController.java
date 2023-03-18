@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_NDJSON_VALUE;
 
 /**
  * Controller for search question
@@ -34,7 +34,7 @@ public class QuestionController {
    * @param title title of question
    * @return questions
    */
-  @GetMapping(value = "{title}", produces = APPLICATION_NDJSON_VALUE)
+  @GetMapping(value = "{title}")
   @Operation(summary = "Find by title", tags = "findQuestionsByTitle")
   @ApiResponses(value = {
           @ApiResponse(

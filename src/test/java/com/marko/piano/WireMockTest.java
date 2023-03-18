@@ -22,6 +22,9 @@ import static com.marko.piano.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Integration test with Wire Mock
+ */
 @SpringBootTest
 @AutoConfigureWebTestClient
 class WireMockTest {
@@ -33,13 +36,13 @@ class WireMockTest {
   WebTestClient webTestClient;
 
   @BeforeEach
-  void setUp() {
+  void init() {
     wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(7071));
     wireMockServer.start();
   }
 
   @AfterEach
-  void tearDown() {
+  void close() {
     wireMockServer.stop();
   }
 
